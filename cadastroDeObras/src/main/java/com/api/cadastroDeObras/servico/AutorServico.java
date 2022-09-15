@@ -20,6 +20,7 @@ public class AutorServico {
     }
     
     public Optional<Autor> listarAutorPorCodigo(Long codigo) {
+        validarExistenciaAutor(codigo);
         return autorRepositorio.findById(codigo);
     }
     
@@ -38,7 +39,7 @@ public class AutorServico {
     }
     
     public Autor validarExistenciaAutor (Long codigo) {
-        Optional<Autor> autor = listarAutorPorCodigo(codigo);
+        Optional<Autor> autor = autorRepositorio.findById(codigo);
         if (autor.isEmpty()) {
             throw new EmptyResultDataAccessException(1);
         }
