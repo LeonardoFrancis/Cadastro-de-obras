@@ -1,9 +1,13 @@
 package com.api.cadastroDeObras.servico;
 
+import com.api.cadastroDeObras.dto.AutorRequestDto;
+import com.api.cadastroDeObras.dto.AutorResponseDto;
 import com.api.cadastroDeObras.entidades.Autor;
 import com.api.cadastroDeObras.repositorio.AutorRepositorio;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -15,12 +19,16 @@ public class AutorServico {
     @Autowired
     private AutorRepositorio autorRepositorio;
     
-    public List<Autor> listarAutor() {
-        return autorRepositorio.findAll();
+    @Autowired
+    private ModelMapper modelmapper;
+    
+    public List<AutorResponseDto> listarAutor() {
+        return autorRepositorio.findAll()
+                .stream().map(this::converterParaAutorResponseDto)
+                .collect(Collectors.toList());
     }
     
     public Optional<Autor> listarAutorPorCodigo(Long codigo) {
-        validarExistenciaAutor(codigo);
         return autorRepositorio.findById(codigo);
     }
     
@@ -44,5 +52,13 @@ public class AutorServico {
             throw new EmptyResultDataAccessException(1);
         }
         return autor.get();
+    }
+    
+    public AutorResponseDto converterParaAutorResponseDto(Autor autor) {
+        return modelmapper.map(autor, AutorResponseDto.class);
+    }
+    
+    public Autor converterAutorRequestDtoParaEntidade(AutorRequestDto autorRequestDto) {
+        return modelmapper.map(autorRequestDto, Autor.class);
     }
 }

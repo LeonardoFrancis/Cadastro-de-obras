@@ -1,13 +1,13 @@
 package com.api.cadastroDeObras.entidades;
 
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -31,10 +31,8 @@ public class Obra {
     @Column(name = "data_exposicao")
     private String dataExposicao;
     
-    @ManyToOne
-    @JoinColumn(name = "codigo_autor", referencedColumnName = "codigo")
-    private Autor autor;
-
+    @ManyToMany(mappedBy = "obra")
+    private Set<Autor> autor;
     public Long getCodigo() {
         return codigo;
     }
@@ -42,7 +40,7 @@ public class Obra {
     public void setCodigo(Long codigo) {
         this.codigo = codigo;
     }
-
+    
     public String getNome() {
         return nome;
     }
@@ -50,7 +48,7 @@ public class Obra {
     public void setNome(String nome) {
         this.nome = nome;
     }
-
+    
     public String getDescricao() {
         return descricao;
     }
@@ -58,7 +56,7 @@ public class Obra {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-
+    
     public String getDataPublicacao() {
         return dataPublicacao;
     }
@@ -66,7 +64,7 @@ public class Obra {
     public void setDataPublicacao(String dataPublicacao) {
         this.dataPublicacao = dataPublicacao;
     }
-
+    
     public String getDataExposicao() {
         return dataExposicao;
     }
@@ -75,23 +73,23 @@ public class Obra {
         this.dataExposicao = dataExposicao;
     }
 
-    public Autor getAutor() {
+    public Set<Autor> getAutor() {
         return autor;
     }
 
-    public void setAutor(Autor autor) {
+    public void setAutor(Set<Autor> autor) {
         this.autor = autor;
     }
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 11 * hash + Objects.hashCode(this.codigo);
-        hash = 11 * hash + Objects.hashCode(this.nome);
-        hash = 11 * hash + Objects.hashCode(this.descricao);
-        hash = 11 * hash + Objects.hashCode(this.dataPublicacao);
-        hash = 11 * hash + Objects.hashCode(this.dataExposicao);
-        hash = 11 * hash + Objects.hashCode(this.autor);
+        int hash = 3;
+        hash = 67 * hash + Objects.hashCode(this.codigo);
+        hash = 67 * hash + Objects.hashCode(this.nome);
+        hash = 67 * hash + Objects.hashCode(this.descricao);
+        hash = 67 * hash + Objects.hashCode(this.dataPublicacao);
+        hash = 67 * hash + Objects.hashCode(this.dataExposicao);
+        hash = 67 * hash + Objects.hashCode(this.autor);
         return hash;
     }
 

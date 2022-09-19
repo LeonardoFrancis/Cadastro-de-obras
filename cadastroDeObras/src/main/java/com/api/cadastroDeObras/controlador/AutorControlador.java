@@ -1,5 +1,7 @@
 package com.api.cadastroDeObras.controlador;
 
+import com.api.cadastroDeObras.dto.AutorRequestDto;
+import com.api.cadastroDeObras.dto.AutorResponseDto;
 import com.api.cadastroDeObras.entidades.Autor;
 import com.api.cadastroDeObras.servico.AutorServico;
 import java.util.List;
@@ -25,7 +27,7 @@ public class AutorControlador {
     private AutorServico autorServico;
     
     @GetMapping
-    public List<Autor> listarAutor(){
+    public List<AutorResponseDto> listarAutor(){
         return autorServico.listarAutor();
     }
       
@@ -35,8 +37,9 @@ public class AutorControlador {
     }
     
     @PostMapping
-    public ResponseEntity<Autor> cadastrarAutor(@RequestBody Autor autor) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(autorServico.cadastrarAutor(autor));
+    public ResponseEntity<AutorResponseDto> cadastrarAutor(@RequestBody AutorRequestDto autorRequestDto) {
+        Autor autorCadastrado = autorServico.cadastrarAutor(autorServico.converterAutorRequestDtoParaEntidade(autorRequestDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(autorServico.converterParaAutorResponseDto(autorCadastrado));
     }
     
     @ResponseStatus(HttpStatus.NO_CONTENT)

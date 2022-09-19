@@ -1,11 +1,16 @@
 package com.api.cadastroDeObras.entidades;
 
 import java.util.Objects;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -34,6 +39,12 @@ public class Autor {
     
     @Column(name = "cpf")
     private String cpf;
+    
+    @ManyToMany (cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinTable(name = "obra_autor",
+               joinColumns = @JoinColumn(name = "codigo_autor_fk"),
+               inverseJoinColumns = @JoinColumn(name = "codigo_obra_fk"))
+    private Set<Obra> obra;
 
     public Long getCodigo() {
         return codigo;
@@ -91,16 +102,25 @@ public class Autor {
         this.cpf = cpf;
     }
 
+    public Set<Obra> getObra() {
+        return obra;
+    }
+
+    public void setObra(Set<Obra> obra) {
+        this.obra = obra;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 53 * hash + Objects.hashCode(this.codigo);
-        hash = 53 * hash + Objects.hashCode(this.nome);
-        hash = 53 * hash + Objects.hashCode(this.sexo);
-        hash = 53 * hash + Objects.hashCode(this.email);
-        hash = 53 * hash + Objects.hashCode(this.dataNascimento);
-        hash = 53 * hash + Objects.hashCode(this.nacionalidade);
-        hash = 53 * hash + Objects.hashCode(this.cpf);
+        int hash = 5;
+        hash = 37 * hash + Objects.hashCode(this.codigo);
+        hash = 37 * hash + Objects.hashCode(this.nome);
+        hash = 37 * hash + Objects.hashCode(this.sexo);
+        hash = 37 * hash + Objects.hashCode(this.email);
+        hash = 37 * hash + Objects.hashCode(this.dataNascimento);
+        hash = 37 * hash + Objects.hashCode(this.nacionalidade);
+        hash = 37 * hash + Objects.hashCode(this.cpf);
+        hash = 37 * hash + Objects.hashCode(this.obra);
         return hash;
     }
 
@@ -134,6 +154,9 @@ public class Autor {
         if (!Objects.equals(this.cpf, other.cpf)) {
             return false;
         }
-        return Objects.equals(this.codigo, other.codigo);
+        if (!Objects.equals(this.codigo, other.codigo)) {
+            return false;
+        }
+        return Objects.equals(this.obra, other.obra);
     }
 }

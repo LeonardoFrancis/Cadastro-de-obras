@@ -1,6 +1,5 @@
 package com.api.cadastroDeObras.servico;
 
-import com.api.cadastroDeObras.entidades.Autor;
 import com.api.cadastroDeObras.entidades.Obra;
 import com.api.cadastroDeObras.repositorio.ObraRepositorio;
 import java.util.List;
