@@ -28,8 +28,11 @@ public class AutorServico {
                 .collect(Collectors.toList());
     }
     
-    public Optional<Autor> listarAutorPorCodigo(Long codigo) {
-        return autorRepositorio.findById(codigo);
+    public List<AutorResponseDto> listarAutorPorCodigo(Long codigo) {
+        validarExistenciaAutor(codigo);
+        return autorRepositorio.findByCodigo(codigo)
+                .stream().map(this::converterParaAutorResponseDto)
+                .collect(Collectors.toList());
     }
     
     public Autor cadastrarAutor (Autor autor) {

@@ -32,7 +32,7 @@ public class AutorControlador {
     }
       
     @GetMapping("/{codigo}")
-    public Optional<Autor> listarAutorPorCodigo(@PathVariable Long codigo) {
+    public List<AutorResponseDto> listarAutorPorCodigo(@PathVariable Long codigo) {
         return autorServico.listarAutorPorCodigo(codigo);
     }
     

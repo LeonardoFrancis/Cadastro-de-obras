@@ -1,5 +1,7 @@
 package com.api.cadastroDeObras.entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -40,11 +42,12 @@ public class Autor {
     @Column(name = "cpf")
     private String cpf;
     
+    @JsonIgnore
     @ManyToMany (cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "obra_autor",
                joinColumns = @JoinColumn(name = "codigo_autor_fk"),
                inverseJoinColumns = @JoinColumn(name = "codigo_obra_fk"))
-    private Set<Obra> obra;
+    private Set<Obra> obra = new HashSet<>();
 
     public Long getCodigo() {
         return codigo;

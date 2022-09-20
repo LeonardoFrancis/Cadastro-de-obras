@@ -1,5 +1,7 @@
 package com.api.cadastroDeObras.entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;
@@ -31,8 +33,10 @@ public class Obra {
     @Column(name = "data_exposicao")
     private String dataExposicao;
     
+    @JsonIgnore
     @ManyToMany(mappedBy = "obra")
-    private Set<Autor> autor;
+    private Set<Autor> autor = new HashSet<>(); 
+    
     public Long getCodigo() {
         return codigo;
     }

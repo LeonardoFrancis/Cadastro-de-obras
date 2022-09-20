@@ -29,8 +29,8 @@ public class ObraControlador {
         return obraServico.listarObraPorCodigo(codigo);
     }
     
-    @PostMapping("/{codigoAutor}")
-    public Obra cadastrarObra(@PathVariable Long codigoAutor, @RequestBody Obra obra) {
-        return obraServico.cadastrarObra(obra, codigoAutor);
+    @PostMapping("/{autorCodigo}")
+    public Obra cadastrarObra(@RequestBody Obra obra, @PathVariable Long autorCodigo) {
+        return obraServico.cadastrarObra(obra, autorCodigo);
     }
 }
