@@ -1,9 +1,10 @@
 package com.api.cadastroDeObras.dto;
 
-public class ObraResponseDto {
+import com.api.cadastroDeObras.entidades.Autor;
 
-    private Long codigo;
-    
+
+public class ObraRequestDto {
+
     private String nome;
     
     private String descricao;
@@ -12,13 +13,7 @@ public class ObraResponseDto {
     
     private String dataExposicao;
     
-    public Long getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(Long codigo) {
-        this.codigo = codigo;
-    }
+    private Autor autor;
 
     public String getNome() {
         return nome;
@@ -50,5 +45,13 @@ public class ObraResponseDto {
 
     public void setDataExposicao(String dataExposicao) {
         this.dataExposicao = dataExposicao;
+    }
+
+    public Autor getAutor() {
+        return autor;
+    }
+
+    public void setAutor(Autor autor) {
+        this.autor = autor;
     }
 }

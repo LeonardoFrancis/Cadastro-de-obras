@@ -1,14 +1,17 @@
 package com.api.cadastroDeObras.servico;
 
+import com.api.cadastroDeObras.dto.ObraRequestDto;
+import com.api.cadastroDeObras.dto.ObraResponseDto;
 import com.api.cadastroDeObras.entidades.Autor;
 import com.api.cadastroDeObras.entidades.Obra;
-import com.api.cadastroDeObras.entidades.RelacaoObraEAutor;
-import com.api.cadastroDeObras.repositorio.AutorRepositorio;
 import com.api.cadastroDeObras.repositorio.ObraRepositorio;
-import com.api.cadastroDeObras.repositorio.RelacaoObraEAutorRepositorio;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,27 +22,52 @@ public class ObraServico {
     @Autowired
     private AutorServico autorServico;
     @Autowired
-    private AutorRepositorio autorRepositorio;
-    @Autowired
-    private RelacaoObraEAutorRepositorio relacaoObraEAutorRepositorio;
+    private ModelMapper modelmapper;
     
-    private RelacaoObraEAutor relacaoObraEAutor = new RelacaoObraEAutor();
-    
-    public List<Obra> listarObraPorAutor(Long codigo) {
-        autorServico.validarExistenciaAutor(codigo);
-        return obraRepositorio.findByAutorCodigo(codigo);
+    public List<ObraResponseDto> listarObraPorAutor(Long codigoAutor) {
+        autorServico.validarExistenciaAutor(codigoAutor);
+        return obraRepositorio.findByAutorCodigoAutor(codigoAutor)
+                .stream().map(this::converterParaObraResponseDto)
+                .collect(Collectors.toList());
     }
     
-    public Optional<Obra> listarObraPorCodigo(Long codigo) {
-        return obraRepositorio.findById(codigo);
+    public ObraResponseDto listarObraPorCodigo(Long codigoObra) {
+        Obra obra = validarExistenciaObra(codigoObra);
+        return converterParaObraResponseDto(obra);
     }
     
-    public Obra cadastrarObra (Obra obra, Long autorCodigo) {
-        Autor autorValidado = autorServico.validarExistenciaAutor(autorCodigo);
-        obraRepositorio.save(obra);
-        relacaoObraEAutor.setAutor(autorValidado);
-        relacaoObraEAutor.setObra(obra);
-        relacaoObraEAutorRepositorio.save(relacaoObraEAutor);
-        return obra;
+    public ObraResponseDto cadastrarObra (ObraRequestDto obraRequestDto, Long codigoAutor) {
+        Autor autor = autorServico.validarExistenciaAutor(codigoAutor);
+        obraRequestDto.setAutor(autor);
+        Obra obra = converterObraRequestParaEntidade(obraRequestDto);
+        return converterParaObraResponseDto(obraRepositorio.save(obra));
+    }
+    
+    public ObraResponseDto atualizarObra(ObraRequestDto obraRequestDto, Long codigoAutor, Long codigoObra) {
+        autorServico.validarExistenciaAutor(codigoAutor);
+        Obra obraValidada = validarExistenciaObra(codigoObra);
+        BeanUtils.copyProperties(obraRequestDto, obraValidada, "codigoObra");
+        return converterParaObraResponseDto(obraRepositorio.save(obraValidada));
+    }
+    
+    public void deletarObra(Long codigoObra) {
+        validarExistenciaObra(codigoObra);
+        obraRepositorio.deleteById(codigoObra);
+    }
+    
+    public ObraResponseDto converterParaObraResponseDto(Obra obra) {
+        return modelmapper.map(obra, ObraResponseDto.class);
+    }
+    
+    public Obra converterObraRequestParaEntidade(ObraRequestDto obraRequestDto) {
+        return modelmapper.map(obraRequestDto, Obra.class);
+    } 
+    
+    public Obra validarExistenciaObra(Long codigoObra) {
+        Optional<Obra> obra = obraRepositorio.findById(codigoObra);
+        if (obra.isEmpty()) {
+            throw new EmptyResultDataAccessException(1);
+        }
+        return obra.get();
     }
 }

@@ -1,18 +1,11 @@
 package com.api.cadastroDeObras.entidades;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -21,8 +14,8 @@ public class Autor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "codigo")
-    private Long codigo;
+    @Column(name = "codigo_autor")
+    private Long codigoAutor;
     
     @Column(name = "nome")
     private String nome;
@@ -41,20 +34,13 @@ public class Autor {
     
     @Column(name = "cpf")
     private String cpf;
-    
-    @JsonIgnore
-    @ManyToMany (cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinTable(name = "obra_autor",
-               joinColumns = @JoinColumn(name = "codigo_autor_fk"),
-               inverseJoinColumns = @JoinColumn(name = "codigo_obra_fk"))
-    private Set<Obra> obra = new HashSet<>();
 
-    public Long getCodigo() {
-        return codigo;
+    public Long getCodigoAutor() {
+        return codigoAutor;
     }
 
-    public void setCodigo(Long codigo) {
-        this.codigo = codigo;
+    public void setCodigoAutor(Long codigoAutor) {
+        this.codigoAutor = codigoAutor;
     }
 
     public String getNome() {
@@ -105,25 +91,16 @@ public class Autor {
         this.cpf = cpf;
     }
 
-    public Set<Obra> getObra() {
-        return obra;
-    }
-
-    public void setObra(Set<Obra> obra) {
-        this.obra = obra;
-    }
-
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 37 * hash + Objects.hashCode(this.codigo);
-        hash = 37 * hash + Objects.hashCode(this.nome);
-        hash = 37 * hash + Objects.hashCode(this.sexo);
-        hash = 37 * hash + Objects.hashCode(this.email);
-        hash = 37 * hash + Objects.hashCode(this.dataNascimento);
-        hash = 37 * hash + Objects.hashCode(this.nacionalidade);
-        hash = 37 * hash + Objects.hashCode(this.cpf);
-        hash = 37 * hash + Objects.hashCode(this.obra);
+        hash = 19 * hash + Objects.hashCode(this.codigoAutor);
+        hash = 19 * hash + Objects.hashCode(this.nome);
+        hash = 19 * hash + Objects.hashCode(this.sexo);
+        hash = 19 * hash + Objects.hashCode(this.email);
+        hash = 19 * hash + Objects.hashCode(this.dataNascimento);
+        hash = 19 * hash + Objects.hashCode(this.nacionalidade);
+        hash = 19 * hash + Objects.hashCode(this.cpf);
         return hash;
     }
 
@@ -157,9 +134,6 @@ public class Autor {
         if (!Objects.equals(this.cpf, other.cpf)) {
             return false;
         }
-        if (!Objects.equals(this.codigo, other.codigo)) {
-            return false;
-        }
-        return Objects.equals(this.obra, other.obra);
+        return Objects.equals(this.codigoAutor, other.codigoAutor);
     }
 }

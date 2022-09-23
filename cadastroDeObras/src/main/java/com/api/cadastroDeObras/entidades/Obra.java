@@ -1,15 +1,13 @@
 package com.api.cadastroDeObras.entidades;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -18,8 +16,8 @@ public class Obra {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "codigo")
-    private Long codigo;
+    @Column(name = "codigo_obra")
+    private Long codigoObra;
     
     @Column(name = "nome")
     private String nome;
@@ -33,16 +31,16 @@ public class Obra {
     @Column(name = "data_exposicao")
     private String dataExposicao;
     
-    @JsonIgnore
-    @ManyToMany(mappedBy = "obra")
-    private Set<Autor> autor = new HashSet<>(); 
+    @ManyToOne
+    @JoinColumn(name = "codigo_autor_FK", referencedColumnName = "codigo_autor")
+    private Autor autor;
     
-    public Long getCodigo() {
-        return codigo;
+    public Long getCodigoObra() {
+        return codigoObra;
     }
 
-    public void setCodigo(Long codigo) {
-        this.codigo = codigo;
+    public void setCodigoObra(Long codigoObra) {
+        this.codigoObra = codigoObra;
     }
     
     public String getNome() {
@@ -77,23 +75,23 @@ public class Obra {
         this.dataExposicao = dataExposicao;
     }
 
-    public Set<Autor> getAutor() {
+    public Autor getAutor() {
         return autor;
     }
 
-    public void setAutor(Set<Autor> autor) {
+    public void setAutor(Autor autor) {
         this.autor = autor;
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 67 * hash + Objects.hashCode(this.codigo);
-        hash = 67 * hash + Objects.hashCode(this.nome);
-        hash = 67 * hash + Objects.hashCode(this.descricao);
-        hash = 67 * hash + Objects.hashCode(this.dataPublicacao);
-        hash = 67 * hash + Objects.hashCode(this.dataExposicao);
-        hash = 67 * hash + Objects.hashCode(this.autor);
+        int hash = 7;
+        hash = 41 * hash + Objects.hashCode(this.codigoObra);
+        hash = 41 * hash + Objects.hashCode(this.nome);
+        hash = 41 * hash + Objects.hashCode(this.descricao);
+        hash = 41 * hash + Objects.hashCode(this.dataPublicacao);
+        hash = 41 * hash + Objects.hashCode(this.dataExposicao);
+        hash = 41 * hash + Objects.hashCode(this.autor);
         return hash;
     }
 
@@ -121,7 +119,7 @@ public class Obra {
         if (!Objects.equals(this.dataExposicao, other.dataExposicao)) {
             return false;
         }
-        if (!Objects.equals(this.codigo, other.codigo)) {
+        if (!Objects.equals(this.codigoObra, other.codigoObra)) {
             return false;
         }
         return Objects.equals(this.autor, other.autor);

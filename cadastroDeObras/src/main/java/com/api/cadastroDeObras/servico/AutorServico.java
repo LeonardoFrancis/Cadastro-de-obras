@@ -28,29 +28,31 @@ public class AutorServico {
                 .collect(Collectors.toList());
     }
     
-    public List<AutorResponseDto> listarAutorPorCodigo(Long codigo) {
-        validarExistenciaAutor(codigo);
-        return autorRepositorio.findByCodigo(codigo)
-                .stream().map(this::converterParaAutorResponseDto)
-                .collect(Collectors.toList());
+    public AutorResponseDto listarAutorPorCodigo(Long codigoAutor) {
+        Autor autor = validarExistenciaAutor(codigoAutor);
+        return converterParaAutorResponseDto(autor);
     }
     
-    public Autor cadastrarAutor (Autor autor) {
-        return autorRepositorio.save(autor);
+    public AutorResponseDto cadastrarAutor (AutorRequestDto autorRequestDto) {
+        Autor autor = converterAutorRequestDtoParaEntidade(autorRequestDto);
+        autorRepositorio.save(autor);
+        return converterParaAutorResponseDto(autor);
     }
     
-    public void deletarAutor (Long codigo) {
-        autorRepositorio.deleteById(codigo);
+    public void deletarAutor (Long codigoAutor) {
+        validarExistenciaAutor(codigoAutor);
+        autorRepositorio.deleteById(codigoAutor);
     }
     
-    public Autor atualizarAutor (Long codigo, Autor autor) {
-        Autor autorAtualizado = validarExistenciaAutor(codigo);
-        BeanUtils.copyProperties(autor, autorAtualizado, "codigo");
-        return autorRepositorio.save(autorAtualizado);
+    public AutorResponseDto atualizarAutor (Long codigoAutor, AutorRequestDto autorRequestDto) {
+        Autor autorAtualizado = validarExistenciaAutor(codigoAutor);
+        Autor autorConvertido = converterAutorRequestDtoParaEntidade(autorRequestDto);
+        BeanUtils.copyProperties(autorConvertido, autorAtualizado, "codigoAutor");
+        return converterParaAutorResponseDto(autorRepositorio.save(autorAtualizado));
     }
     
-    public Autor validarExistenciaAutor (Long codigo) {
-        Optional<Autor> autor = autorRepositorio.findById(codigo);
+    public Autor validarExistenciaAutor (Long codigoAutor) {
+        Optional<Autor> autor = autorRepositorio.findById(codigoAutor);
         if (autor.isEmpty()) {
             throw new EmptyResultDataAccessException(1);
         }

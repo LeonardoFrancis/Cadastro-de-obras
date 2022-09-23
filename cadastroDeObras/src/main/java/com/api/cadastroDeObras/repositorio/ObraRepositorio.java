@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ObraRepositorio extends JpaRepository<Obra, Long> {
     
-    List<Obra> findByAutorCodigo(Long autorCodigo);
+    List<Obra> findByAutorCodigoAutor(Long codigoAutor);
 }

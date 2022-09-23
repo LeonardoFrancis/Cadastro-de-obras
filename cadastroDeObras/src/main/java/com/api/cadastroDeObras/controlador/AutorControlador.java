@@ -2,10 +2,8 @@ package com.api.cadastroDeObras.controlador;
 
 import com.api.cadastroDeObras.dto.AutorRequestDto;
 import com.api.cadastroDeObras.dto.AutorResponseDto;
-import com.api.cadastroDeObras.entidades.Autor;
 import com.api.cadastroDeObras.servico.AutorServico;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,25 +29,24 @@ public class AutorControlador {
         return autorServico.listarAutor();
     }
       
-    @GetMapping("/{codigo}")
-    public List<AutorResponseDto> listarAutorPorCodigo(@PathVariable Long codigo) {
-        return autorServico.listarAutorPorCodigo(codigo);
+    @GetMapping("/{codigoAutor}")
+    public ResponseEntity<AutorResponseDto> listarAutorPorCodigo(@PathVariable Long codigoAutor) {
+        return ResponseEntity.ok(autorServico.listarAutorPorCodigo(codigoAutor));
     }
     
     @PostMapping
     public ResponseEntity<AutorResponseDto> cadastrarAutor(@RequestBody AutorRequestDto autorRequestDto) {
-        Autor autorCadastrado = autorServico.cadastrarAutor(autorServico.converterAutorRequestDtoParaEntidade(autorRequestDto));
-        return ResponseEntity.status(HttpStatus.CREATED).body(autorServico.converterParaAutorResponseDto(autorCadastrado));
+        return ResponseEntity.status(HttpStatus.CREATED).body(autorServico.cadastrarAutor(autorRequestDto));
     }
     
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/{codigo}")
-    public void deletarAutor(@PathVariable Long codigo) {
-        autorServico.deletarAutor(codigo);
+    @DeleteMapping("/{codigoAutor}")
+    public void deletarAutor(@PathVariable Long codigoAutor) {
+        autorServico.deletarAutor(codigoAutor);
     }
     
-    @PutMapping("/{codigo}")
-    public ResponseEntity<Autor> atualizarAutor(@PathVariable Long codigo, @RequestBody Autor autor) {
-        return ResponseEntity.status(HttpStatus.OK).body(autorServico.atualizarAutor(codigo, autor));
+    @PutMapping("/{codigoAutor}")
+    public ResponseEntity<AutorResponseDto> atualizarAutor(@PathVariable Long codigoAutor, @RequestBody AutorRequestDto autorRequestDto) {
+        return ResponseEntity.status(HttpStatus.OK).body(autorServico.atualizarAutor(codigoAutor, autorRequestDto));
     }
 }
