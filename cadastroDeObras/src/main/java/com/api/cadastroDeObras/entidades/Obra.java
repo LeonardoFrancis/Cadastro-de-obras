@@ -1,5 +1,6 @@
 package com.api.cadastroDeObras.entidades;
 
+import java.time.LocalDate;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,10 +27,10 @@ public class Obra {
     private String descricao;
     
     @Column(name = "data_publicacao")
-    private String dataPublicacao;
+    private LocalDate dataPublicacao;
     
     @Column(name = "data_exposicao")
-    private String dataExposicao;
+    private LocalDate dataExposicao;
     
     @ManyToOne
     @JoinColumn(name = "codigo_autor_FK", referencedColumnName = "codigo_autor")
@@ -58,20 +59,20 @@ public class Obra {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-    
-    public String getDataPublicacao() {
+
+    public LocalDate getDataPublicacao() {
         return dataPublicacao;
     }
 
-    public void setDataPublicacao(String dataPublicacao) {
+    public void setDataPublicacao(LocalDate dataPublicacao) {
         this.dataPublicacao = dataPublicacao;
     }
-    
-    public String getDataExposicao() {
+
+    public LocalDate getDataExposicao() {
         return dataExposicao;
     }
 
-    public void setDataExposicao(String dataExposicao) {
+    public void setDataExposicao(LocalDate dataExposicao) {
         this.dataExposicao = dataExposicao;
     }
 
@@ -85,13 +86,13 @@ public class Obra {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 41 * hash + Objects.hashCode(this.codigoObra);
-        hash = 41 * hash + Objects.hashCode(this.nome);
-        hash = 41 * hash + Objects.hashCode(this.descricao);
-        hash = 41 * hash + Objects.hashCode(this.dataPublicacao);
-        hash = 41 * hash + Objects.hashCode(this.dataExposicao);
-        hash = 41 * hash + Objects.hashCode(this.autor);
+        int hash = 5;
+        hash = 29 * hash + Objects.hashCode(this.codigoObra);
+        hash = 29 * hash + Objects.hashCode(this.nome);
+        hash = 29 * hash + Objects.hashCode(this.descricao);
+        hash = 29 * hash + Objects.hashCode(this.dataPublicacao);
+        hash = 29 * hash + Objects.hashCode(this.dataExposicao);
+        hash = 29 * hash + Objects.hashCode(this.autor);
         return hash;
     }
 
@@ -113,13 +114,13 @@ public class Obra {
         if (!Objects.equals(this.descricao, other.descricao)) {
             return false;
         }
+        if (!Objects.equals(this.codigoObra, other.codigoObra)) {
+            return false;
+        }
         if (!Objects.equals(this.dataPublicacao, other.dataPublicacao)) {
             return false;
         }
         if (!Objects.equals(this.dataExposicao, other.dataExposicao)) {
-            return false;
-        }
-        if (!Objects.equals(this.codigoObra, other.codigoObra)) {
             return false;
         }
         return Objects.equals(this.autor, other.autor);

@@ -1,11 +1,14 @@
 package com.api.cadastroDeObras.entidades;
 
+import java.time.LocalDate;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -27,13 +30,14 @@ public class Autor {
     private String email;
     
     @Column(name = "data_nascimento")
-    private String dataNascimento;
-    
-    @Column(name = "nacionalidade")
-    private String nacionalidade;
+    private LocalDate dataNascimento;
     
     @Column(name = "cpf")
     private String cpf;
+    
+    @ManyToOne
+    @JoinColumn(name = "codigo_pais_FK", referencedColumnName = "codigo_pais")
+    private Pais nacionalidade;
 
     public Long getCodigoAutor() {
         return codigoAutor;
@@ -67,19 +71,19 @@ public class Autor {
         this.email = email;
     }
 
-    public String getDataNascimento() {
+    public LocalDate getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(String dataNascimento) {
+    public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 
-    public String getNacionalidade() {
+    public Pais getNacionalidade() {
         return nacionalidade;
     }
 
-    public void setNacionalidade(String nacionalidade) {
+    public void setNacionalidade(Pais nacionalidade) {
         this.nacionalidade = nacionalidade;
     }
 
@@ -94,13 +98,13 @@ public class Autor {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 19 * hash + Objects.hashCode(this.codigoAutor);
-        hash = 19 * hash + Objects.hashCode(this.nome);
-        hash = 19 * hash + Objects.hashCode(this.sexo);
-        hash = 19 * hash + Objects.hashCode(this.email);
-        hash = 19 * hash + Objects.hashCode(this.dataNascimento);
-        hash = 19 * hash + Objects.hashCode(this.nacionalidade);
-        hash = 19 * hash + Objects.hashCode(this.cpf);
+        hash = 23 * hash + Objects.hashCode(this.codigoAutor);
+        hash = 23 * hash + Objects.hashCode(this.nome);
+        hash = 23 * hash + Objects.hashCode(this.sexo);
+        hash = 23 * hash + Objects.hashCode(this.email);
+        hash = 23 * hash + Objects.hashCode(this.dataNascimento);
+        hash = 23 * hash + Objects.hashCode(this.nacionalidade);
+        hash = 23 * hash + Objects.hashCode(this.cpf);
         return hash;
     }
 
@@ -125,15 +129,15 @@ public class Autor {
         if (!Objects.equals(this.email, other.email)) {
             return false;
         }
-        if (!Objects.equals(this.dataNascimento, other.dataNascimento)) {
-            return false;
-        }
         if (!Objects.equals(this.nacionalidade, other.nacionalidade)) {
             return false;
         }
         if (!Objects.equals(this.cpf, other.cpf)) {
             return false;
         }
-        return Objects.equals(this.codigoAutor, other.codigoAutor);
+        if (!Objects.equals(this.codigoAutor, other.codigoAutor)) {
+            return false;
+        }
+        return Objects.equals(this.dataNascimento, other.dataNascimento);
     }
 }

@@ -1,6 +1,7 @@
 package com.api.cadastroDeObras.dto;
 
 import com.api.cadastroDeObras.entidades.Autor;
+import java.time.LocalDate;
 
 
 public class ObraRequestDto {
@@ -9,9 +10,9 @@ public class ObraRequestDto {
     
     private String descricao;
     
-    private String dataPublicacao;
+    private LocalDate dataPublicacao;
     
-    private String dataExposicao;
+    private LocalDate dataExposicao;
     
     private Autor autor;
 
@@ -31,22 +32,21 @@ public class ObraRequestDto {
         this.descricao = descricao;
     }
 
-    public String getDataPublicacao() {
+    public LocalDate getDataPublicacao() {
         return dataPublicacao;
     }
 
-    public void setDataPublicacao(String dataPublicacao) {
+    public void setDataPublicacao(LocalDate dataPublicacao) {
         this.dataPublicacao = dataPublicacao;
     }
 
-    public String getDataExposicao() {
+    public LocalDate getDataExposicao() {
         return dataExposicao;
     }
 
-    public void setDataExposicao(String dataExposicao) {
+    public void setDataExposicao(LocalDate dataExposicao) {
         this.dataExposicao = dataExposicao;
     }
-
     public Autor getAutor() {
         return autor;
     }

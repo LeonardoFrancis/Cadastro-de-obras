@@ -1,18 +1,31 @@
 package com.api.cadastroDeObras.dto;
 
+import com.api.cadastroDeObras.entidades.Pais;
+import java.time.LocalDate;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
+
 
 public class AutorRequestDto {
 
+    @NotBlank(message = "nome")
     private String nome;
     
     private String sexo;
     
+    @Pattern(regexp = "^[A-Za-z0-9](([_.-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([.-]?[a-zA-Z0-9]+)*)([.][A-Za-z]{2,4})$")
     private String email;
     
-    private String dataNascimento;
+    @NotNull(message = "data de nascimento")
+    @Past(message = "data de nascimento")
+    private LocalDate dataNascimento;
     
-    private String nacionalidade;
+    @NotNull(message = "nacionalidade")
+    private Pais nacionalidade;
     
+    @Pattern(regexp = "[0-9]{3}[.][0-9]{3}[.][0-9]{3}[-][0-9]{2}", message = "CPF")
     private String cpf;
 
     public String getNome() {
@@ -39,27 +52,26 @@ public class AutorRequestDto {
         this.email = email;
     }
 
-    public String getDataNascimento() {
+    public LocalDate getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(String dataNascimento) {
+    public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
-
-    public String getNacionalidade() {
-        return nacionalidade;
-    }
-
-    public void setNacionalidade(String nacionalidade) {
-        this.nacionalidade = nacionalidade;
-    }
-
     public String getCpf() {
         return cpf;
     }
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+    public Pais getNacionalidade() {
+        return nacionalidade;
+    }
+
+    public void setNacionalidade(Pais nacionalidade) {
+        this.nacionalidade = nacionalidade;
     }
 }

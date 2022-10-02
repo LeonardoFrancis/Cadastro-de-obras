@@ -1,5 +1,8 @@
 package com.api.cadastroDeObras.dto;
 
+import com.api.cadastroDeObras.entidades.Pais;
+import java.time.LocalDate;
+
 public class AutorResponseDto {
 
     private Long codigo;
@@ -10,11 +13,11 @@ public class AutorResponseDto {
     
     private String email;
     
-    private String dataNascimento;
-    
-    private String nacionalidade;
+    private LocalDate dataNascimento;
     
     private String cpf;
+    
+    private Pais nacionalidade;
     
     public Long getCodigo() {
         return codigo;
@@ -48,20 +51,12 @@ public class AutorResponseDto {
         this.email = email;
     }
 
-    public String getDataNascimento() {
+    public LocalDate getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(String dataNascimento) {
+    public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
-    }
-
-    public String getNacionalidade() {
-        return nacionalidade;
-    }
-
-    public void setNacionalidade(String nacionalidade) {
-        this.nacionalidade = nacionalidade;
     }
 
     public String getCpf() {
@@ -70,5 +65,13 @@ public class AutorResponseDto {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+    public Pais getNacionalidade() {
+        return nacionalidade;
+    }
+
+    public void setNacionalidade(Pais nacionalidade) {
+        this.nacionalidade = nacionalidade;
     }
 }

@@ -4,6 +4,7 @@ import com.api.cadastroDeObras.dto.AutorRequestDto;
 import com.api.cadastroDeObras.dto.AutorResponseDto;
 import com.api.cadastroDeObras.servico.AutorServico;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +36,7 @@ public class AutorControlador {
     }
     
     @PostMapping
-    public ResponseEntity<AutorResponseDto> cadastrarAutor(@RequestBody AutorRequestDto autorRequestDto) {
+    public ResponseEntity<AutorResponseDto> cadastrarAutor(@Valid @RequestBody AutorRequestDto autorRequestDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(autorServico.cadastrarAutor(autorRequestDto));
     }
     
@@ -46,7 +47,7 @@ public class AutorControlador {
     }
     
     @PutMapping("/{codigoAutor}")
-    public ResponseEntity<AutorResponseDto> atualizarAutor(@PathVariable Long codigoAutor, @RequestBody AutorRequestDto autorRequestDto) {
+    public ResponseEntity<AutorResponseDto> atualizarAutor(@PathVariable Long codigoAutor, @Valid @RequestBody AutorRequestDto autorRequestDto) {
         return ResponseEntity.status(HttpStatus.OK).body(autorServico.atualizarAutor(codigoAutor, autorRequestDto));
     }
 }

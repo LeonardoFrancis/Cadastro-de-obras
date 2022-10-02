@@ -1,5 +1,7 @@
 package com.api.cadastroDeObras.dto;
 
+import java.time.LocalDate;
+
 public class ObraResponseDto {
 
     private Long codigo;
@@ -8,9 +10,9 @@ public class ObraResponseDto {
     
     private String descricao;
     
-    private String dataPublicacao;
+    private LocalDate dataPublicacao;
     
-    private String dataExposicao;
+    private LocalDate dataExposicao;
     
     public Long getCodigo() {
         return codigo;
@@ -36,19 +38,19 @@ public class ObraResponseDto {
         this.descricao = descricao;
     }
 
-    public String getDataPublicacao() {
+    public LocalDate getDataPublicacao() {
         return dataPublicacao;
     }
 
-    public void setDataPublicacao(String dataPublicacao) {
+    public void setDataPublicacao(LocalDate dataPublicacao) {
         this.dataPublicacao = dataPublicacao;
     }
 
-    public String getDataExposicao() {
+    public LocalDate getDataExposicao() {
         return dataExposicao;
     }
 
-    public void setDataExposicao(String dataExposicao) {
+    public void setDataExposicao(LocalDate dataExposicao) {
         this.dataExposicao = dataExposicao;
     }
 }
