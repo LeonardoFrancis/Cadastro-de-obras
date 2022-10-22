@@ -2,10 +2,8 @@ package com.api.cadastroDeObras.controlador;
 
 import com.api.cadastroDeObras.dto.ObraRequestDto;
 import com.api.cadastroDeObras.dto.ObraResponseDto;
-import com.api.cadastroDeObras.entidades.Obra;
 import com.api.cadastroDeObras.servico.ObraServico;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +18,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/obra")
+@RequestMapping("/autor/{codigoAutor}/obra")
 public class ObraControlador {
 
     @Autowired
     private ObraServico obraServico;
     
-    @GetMapping("/autor/{codigoAutor}")
+    @GetMapping
     public ResponseEntity<List<ObraResponseDto>> listarObraPorAutor(@PathVariable Long codigoAutor) {
         return ResponseEntity.ok(obraServico.listarObraPorAutor(codigoAutor));
     }
@@ -36,12 +34,12 @@ public class ObraControlador {
         return ResponseEntity.ok(obraServico.listarObraPorCodigo(codigoObra));
     }
     
-    @PostMapping("/autor/{codigoAutor}")
+    @PostMapping
     public ResponseEntity<ObraResponseDto> cadastrarObra(@RequestBody ObraRequestDto obraRequestDto, @PathVariable Long codigoAutor) {
         return ResponseEntity.status(HttpStatus.CREATED).body(obraServico.cadastrarObra(obraRequestDto, codigoAutor));
     }
     
-    @PutMapping("/{codigoObra}/autor/{codigoAutor}")
+    @PutMapping("/{codigoObra}")
     public ResponseEntity<ObraResponseDto> atualizarObra(@RequestBody ObraRequestDto obraRequestDto, @PathVariable Long codigoAutor, @PathVariable Long codigoObra) {
         return ResponseEntity.ok(obraServico.atualizarObra(obraRequestDto, codigoAutor, codigoObra));
     }

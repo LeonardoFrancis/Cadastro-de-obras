@@ -38,6 +38,7 @@ public class ObraServico {
     
     public ObraResponseDto cadastrarObra (ObraRequestDto obraRequestDto, Long codigoAutor) {
         Autor autor = autorServico.validarExistenciaAutor(codigoAutor);
+        validarDatasObra(obraRequestDto);
         obraRequestDto.setAutor(autor);
         Obra obra = converterObraRequestParaEntidade(obraRequestDto);
         return converterParaObraResponseDto(obraRepositorio.save(obra));
@@ -45,6 +46,7 @@ public class ObraServico {
     
     public ObraResponseDto atualizarObra(ObraRequestDto obraRequestDto, Long codigoAutor, Long codigoObra) {
         autorServico.validarExistenciaAutor(codigoAutor);
+        validarDatasObra(obraRequestDto);
         Obra obraValidada = validarExistenciaObra(codigoObra);
         BeanUtils.copyProperties(obraRequestDto, obraValidada, "codigoObra");
         return converterParaObraResponseDto(obraRepositorio.save(obraValidada));
@@ -69,5 +71,11 @@ public class ObraServico {
             throw new EmptyResultDataAccessException(1);
         }
         return obra.get();
+    }
+    
+    public void validarDatasObra (ObraRequestDto obraRequestDto) {
+        if ((obraRequestDto.getDataExposicao() == null) && (obraRequestDto.getDataPublicacao() == null)) {
+            throw new EmptyResultDataAccessException(1);
+        }
     }
 }

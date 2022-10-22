@@ -2,12 +2,17 @@ package com.api.cadastroDeObras.dto;
 
 import com.api.cadastroDeObras.entidades.Autor;
 import java.time.LocalDate;
+import javax.validation.constraints.NotBlank;
+import org.hibernate.validator.constraints.Length;
 
 
 public class ObraRequestDto {
 
+    @NotBlank(message = "nome")
     private String nome;
     
+    @NotBlank(message = "descrição")
+    @Length(max = 240, message = "descrição")
     private String descricao;
     
     private LocalDate dataPublicacao;
