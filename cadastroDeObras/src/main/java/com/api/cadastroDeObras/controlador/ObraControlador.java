@@ -4,6 +4,7 @@ import com.api.cadastroDeObras.dto.ObraRequestDto;
 import com.api.cadastroDeObras.dto.ObraResponseDto;
 import com.api.cadastroDeObras.servico.ObraServico;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,23 +31,23 @@ public class ObraControlador {
     }
     
     @GetMapping("/{codigoObra}")
-    public ResponseEntity<ObraResponseDto> listarObraPorCodigo(@PathVariable Long codigoObra) {
-        return ResponseEntity.ok(obraServico.listarObraPorCodigo(codigoObra));
+    public ResponseEntity<ObraResponseDto> listarObraPorCodigo(@PathVariable Long codigoObra, @PathVariable Long codigoAutor) {
+        return ResponseEntity.ok(obraServico.listarObraPorCodigo(codigoObra, codigoAutor));
     }
     
     @PostMapping
-    public ResponseEntity<ObraResponseDto> cadastrarObra(@RequestBody ObraRequestDto obraRequestDto, @PathVariable Long codigoAutor) {
+    public ResponseEntity<ObraResponseDto> cadastrarObra(@Valid @RequestBody ObraRequestDto obraRequestDto, @PathVariable Long codigoAutor) {
         return ResponseEntity.status(HttpStatus.CREATED).body(obraServico.cadastrarObra(obraRequestDto, codigoAutor));
     }
     
     @PutMapping("/{codigoObra}")
-    public ResponseEntity<ObraResponseDto> atualizarObra(@RequestBody ObraRequestDto obraRequestDto, @PathVariable Long codigoAutor, @PathVariable Long codigoObra) {
+    public ResponseEntity<ObraResponseDto> atualizarObra(@Valid @RequestBody ObraRequestDto obraRequestDto, @PathVariable Long codigoAutor, @PathVariable Long codigoObra) {
         return ResponseEntity.ok(obraServico.atualizarObra(obraRequestDto, codigoAutor, codigoObra));
     }
     
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{codigoObra}")
-    public void deletarObra (@PathVariable Long codigoObra) {
-        obraServico.deletarObra(codigoObra);
+    public void deletarObra (@PathVariable Long codigoObra, @PathVariable Long codigoAutor) {
+        obraServico.deletarObra(codigoObra, codigoAutor);
     }
 }

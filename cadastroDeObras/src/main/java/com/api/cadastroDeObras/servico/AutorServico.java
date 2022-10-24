@@ -55,6 +55,7 @@ public class AutorServico {
     public AutorResponseDto atualizarAutor (Long codigoAutor, AutorRequestDto autorRequestDto) {
         Pais pais = validarExistenciaPais(autorRequestDto.getNacionalidade().getNome());
         Autor autorAtualizado = validarExistenciaAutor(codigoAutor);
+        regraCpf(pais, autorRequestDto);
         autorRequestDto.setNacionalidade(pais);
         Autor autorConvertido = converterAutorRequestDtoParaEntidade(autorRequestDto);
         BeanUtils.copyProperties(autorConvertido, autorAtualizado, "codigoAutor");

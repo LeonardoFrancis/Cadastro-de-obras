@@ -42,7 +42,7 @@ public class AutorControlador {
     
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{codigoAutor}")
-    public void deletarAutor(@PathVariable Long codigoAutor) {
+    public void deletarAutor(@PathVariable Long codigoAutor) { 
         autorServico.deletarAutor(codigoAutor);
     }
     

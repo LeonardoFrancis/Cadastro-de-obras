@@ -31,7 +31,8 @@ public class ObraServico {
                 .collect(Collectors.toList());
     }
     
-    public ObraResponseDto listarObraPorCodigo(Long codigoObra) {
+    public ObraResponseDto listarObraPorCodigo(Long codigoObra, Long codigoAutor) {
+        autorServico.validarExistenciaAutor(codigoAutor);
         Obra obra = validarExistenciaObra(codigoObra);
         return converterParaObraResponseDto(obra);
     }
@@ -52,8 +53,9 @@ public class ObraServico {
         return converterParaObraResponseDto(obraRepositorio.save(obraValidada));
     }
     
-    public void deletarObra(Long codigoObra) {
+    public void deletarObra(Long codigoObra, Long codigoAutor) {
         validarExistenciaObra(codigoObra);
+        autorServico.validarExistenciaAutor(codigoAutor);
         obraRepositorio.deleteById(codigoObra);
     }
     
