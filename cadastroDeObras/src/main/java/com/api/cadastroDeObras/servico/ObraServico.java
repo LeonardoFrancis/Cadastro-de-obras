@@ -1,5 +1,6 @@
 package com.api.cadastroDeObras.servico;
 
+import com.api.cadastroDeObras.configuracao.RegraNegocioException;
 import com.api.cadastroDeObras.dto.ObraRequestDto;
 import com.api.cadastroDeObras.dto.ObraResponseDto;
 import com.api.cadastroDeObras.entidades.Autor;
@@ -47,14 +48,13 @@ public class ObraServico {
     
     public ObraResponseDto atualizarObra(ObraRequestDto obraRequestDto, Long codigoAutor, Long codigoObra) {
         autorServico.validarExistenciaAutor(codigoAutor);
-        validarDatasObra(obraRequestDto);
         Obra obraValidada = validarExistenciaObra(codigoObra);
+        validarDatasObra(obraRequestDto);
         BeanUtils.copyProperties(obraRequestDto, obraValidada, "codigoObra");
         return converterParaObraResponseDto(obraRepositorio.save(obraValidada));
     }
     
     public void deletarObra(Long codigoObra, Long codigoAutor) {
-        validarExistenciaObra(codigoObra);
         autorServico.validarExistenciaAutor(codigoAutor);
         obraRepositorio.deleteById(codigoObra);
     }
@@ -77,7 +77,7 @@ public class ObraServico {
     
     public void validarDatasObra (ObraRequestDto obraRequestDto) {
         if ((obraRequestDto.getDataExposicao() == null) && (obraRequestDto.getDataPublicacao() == null)) {
-            throw new EmptyResultDataAccessException(1);
+            throw new RegraNegocioException("Data da exposição e data da publicação estão vazias. Preencha pelo menos uma das opções.");
         }
     }
 }

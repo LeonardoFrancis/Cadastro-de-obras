@@ -1,5 +1,6 @@
 package com.api.cadastroDeObras.servico;
 
+import com.api.cadastroDeObras.configuracao.RegraNegocioException;
 import com.api.cadastroDeObras.dto.AutorRequestDto;
 import com.api.cadastroDeObras.dto.AutorResponseDto;
 import com.api.cadastroDeObras.entidades.Autor;
@@ -88,7 +89,7 @@ public class AutorServico {
     // Método para obrigar a inserção do CPF no cadastro de autores brasileiros
     public void regraCpf(Pais pais, AutorRequestDto autorRequestDto) { 
         if((pais.getNome().equals("BRASIL")) && (autorRequestDto.getCpf() == null)) {
-            throw new EmptyResultDataAccessException(1);
+            throw new RegraNegocioException("CPF é obrigatório.");
         }
     }
 }
