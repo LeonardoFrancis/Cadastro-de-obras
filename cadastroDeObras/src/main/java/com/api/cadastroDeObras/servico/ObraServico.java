@@ -3,6 +3,7 @@ package com.api.cadastroDeObras.servico;
 import com.api.cadastroDeObras.configuracao.RegraNegocioException;
 import com.api.cadastroDeObras.dto.ObraRequestDto;
 import com.api.cadastroDeObras.dto.ObraResponseDto;
+import com.api.cadastroDeObras.dto.ObraResponseDto2;
 import com.api.cadastroDeObras.entidades.Autor;
 import com.api.cadastroDeObras.entidades.Obra;
 import com.api.cadastroDeObras.repositorio.ObraRepositorio;
@@ -32,10 +33,10 @@ public class ObraServico {
                 .collect(Collectors.toList());
     }
     
-    public ObraResponseDto listarObraPorCodigo(Long codigoObra, Long codigoAutor) {
+    public ObraResponseDto2 listarObraPorCodigo(Long codigoObra, Long codigoAutor) {
         autorServico.validarExistenciaAutor(codigoAutor);
         Obra obra = validarExistenciaObra(codigoObra);
-        return converterParaObraResponseDto(obra);
+        return converterParaObraResponseDto2(obra);
     }
     
     public ObraResponseDto cadastrarObra (ObraRequestDto obraRequestDto, Long codigoAutor) {
@@ -61,6 +62,10 @@ public class ObraServico {
     
     public ObraResponseDto converterParaObraResponseDto(Obra obra) {
         return modelmapper.map(obra, ObraResponseDto.class);
+    }
+    
+    public ObraResponseDto2 converterParaObraResponseDto2(Obra obra) {
+        return modelmapper.map(obra, ObraResponseDto2.class);
     }
     
     public Obra converterObraRequestParaEntidade(ObraRequestDto obraRequestDto) {

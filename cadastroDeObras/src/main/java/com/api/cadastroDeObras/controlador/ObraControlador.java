@@ -2,6 +2,7 @@ package com.api.cadastroDeObras.controlador;
 
 import com.api.cadastroDeObras.dto.ObraRequestDto;
 import com.api.cadastroDeObras.dto.ObraResponseDto;
+import com.api.cadastroDeObras.dto.ObraResponseDto2;
 import com.api.cadastroDeObras.servico.ObraServico;
 import java.util.List;
 import javax.validation.Valid;
@@ -31,7 +32,7 @@ public class ObraControlador {
     }
     
     @GetMapping("/{codigoObra}")
-    public ResponseEntity<ObraResponseDto> listarObraPorCodigo(@PathVariable Long codigoObra, @PathVariable Long codigoAutor) {
+    public ResponseEntity<ObraResponseDto2> listarObraPorCodigo(@PathVariable Long codigoObra, @PathVariable Long codigoAutor) {
         return ResponseEntity.ok(obraServico.listarObraPorCodigo(codigoObra, codigoAutor));
     }
     
